@@ -1,16 +1,25 @@
 package co.simplon.testDao;
+import co.simplon.dao.AccountDao;
 import co.simplon.dao.OperationDao;
 import co.simplon.entities.Operations;
 
+import java.util.Calendar;
+import java.util.Date;
 public class TestDaoOperations {
 	public static void lancerTests() {
 		// le principe de base d'un programme de tests, 
 		// c'est qu'on doit passer par tous les chemins pour valider 
 		// Comment faire ici ?
-		
 		OperationDao cd = new OperationDao();		
-				
-		Operations c1 = new Operations(9,200,1);
+		Calendar cal = Calendar.getInstance();
+		int year  = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day   = cal.get(Calendar.DAY_OF_MONTH);
+		cal.clear();
+		cal.set(year, month, day);
+		java.sql.Date today = new java.sql.Date(cal.getTimeInMillis());
+			
+		Operations c1 = new Operations("Retrait",900,today,1);
 		
 		if(cd.create(c1))	System.out.println("insertion ok de " + c1);
 		else System.out.println("insertion impossible, client avec cet id existe déjà ");
@@ -26,7 +35,7 @@ public class TestDaoOperations {
 		if(cd.delete(c1))	System.out.println("delete ok " + c1);
 		else System.out.println("delete impossible ");
 		//test faux
-		Operations c3=new Operations(5,234,233);
+		Operations c3=new Operations("Versement",500,today,233);
 		
 		if(cd.create(c3))	System.out.println("insertion ok de " + c3);
 		else System.out.println("insertion impossible, client avec cet id existe déjà ");

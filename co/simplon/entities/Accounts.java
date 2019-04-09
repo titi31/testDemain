@@ -6,13 +6,34 @@ public class Accounts {
     private Date DateCreation;
     private int Balance;
     private int IdCust;
-
-    public Accounts(int numCpte, double solde, int codeCli, Date date) {
-        this.NumCt = NumCt;
+    private String type;
+    private int NumCt2;
+    protected static Customers Customers;
+    public Accounts(int numCpte, Date date,int Balance,String type, int IdCust) {
+        this.NumCt = numCpte;
         this.DateCreation = DateCreation;
         this.Balance = Balance;
+        this.type=type;
         this.IdCust = IdCust;
+        
+        
+        
     }
+    public Accounts(int numCpte,int Balance, int IdCust) {
+        this.NumCt = numCpte;
+        
+        this.Balance = Balance;
+        this.IdCust = IdCust;
+        
+    }
+    public Accounts(int numCpte,int IdCust) {
+        this.NumCt = numCpte;
+        
+        
+        this.IdCust = IdCust;
+        
+    }
+
 
     public int getNumCt() {
         return NumCt;

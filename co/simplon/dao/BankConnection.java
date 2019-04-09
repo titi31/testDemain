@@ -13,7 +13,7 @@ public class BankConnection {
 
     private BankConnection() {
         Properties props = new Properties();
-        try (FileInputStream fis = new FileInputStream("src/config.properties")){
+        try (FileInputStream fis = new FileInputStream("config.properties")){
             props.load(fis);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();

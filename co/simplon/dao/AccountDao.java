@@ -5,20 +5,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-
+import co.simplon.entities.CompteCourant;
+import co.simplon.entities.CompteEpargne;
 public class AccountDao extends Dao<Accounts> {
 	@Override
 	public Accounts find(int id) {
-		String str = "select * from T_Account where NumCpte=?";
+		String strE = "select * from T_Accounts where NumCt=?";
+		
 		PreparedStatement ps;
+		PreparedStatement ps1;
 		Accounts Account = null;
 		try {
-			ps = connection.prepareStatement(str);
+			ps = connection.prepareStatement(strE);
 			ps.setInt(1,id);
+			
 			ResultSet resultSet = ps.executeQuery();
+			
 			if(resultSet.next()){
-				Account= new Accounts(resultSet.getInt(1),resultSet.getDouble(2),resultSet.getInt(3),resultSet.getDate(4));
+				if(resultSet.getString(4).contentEquals("epargne")) {
+				Account= new CompteEpargne(resultSet.getInt(1),resultSet.getDate(2),resultSet.getInt(3),resultSet.getString(4),resultSet.getInt(5),resultSet.getInt(7));	
+			}else if(resultSet.getString(4).contentEquals("courant")) {
+			
+				
+				Account= new CompteCourant(resultSet.getInt(1),resultSet.getDate(2),resultSet.getInt(3),resultSet.getString(4),resultSet.getInt(5),resultSet.getInt(6));
 			}
+			}
+		
 		} catch (SQLException e) {
 			System.out.println("not exist");
 			//e.printStackTrace();
@@ -28,7 +40,7 @@ public class AccountDao extends Dao<Accounts> {
 
 	@Override
 	public boolean create(Accounts obj) {
-		String str = "INSERT INTO T_Account (NumCt,Balance,IdCust) VALUES (?, ? ,? );";
+		String str = "INSERT INTO T_Accounts (NumCt,Balance,IdCust) VALUES (?, ? ,? );";
 		PreparedStatement ps;
 		boolean ok = false;
 		try {
@@ -48,7 +60,7 @@ public class AccountDao extends Dao<Accounts> {
 
 	@Override
 	public boolean update(Accounts obj) {		
-		String str = " update T_Account set Balance=? where IdCust=?;";		
+		String str = " update T_Accounts set Balance=? where NumCt=?;";		
 		PreparedStatement ps;
 		boolean ok = false;
 		try {
@@ -66,7 +78,7 @@ public class AccountDao extends Dao<Accounts> {
 
 	@Override
 	public boolean delete(Accounts obj) {
-		String str = "delete from T_Account where NumCpte=?;";	
+		String str = "delete from T_Accounts where NumCpte=?;";	
 		PreparedStatement ps;
 		boolean ok = false;
 		try {

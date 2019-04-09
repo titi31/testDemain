@@ -18,7 +18,7 @@ public class TestDaoAccount {
 		cal.clear();
 		cal.set(year, month, day);
 		java.sql.Date today = new java.sql.Date(cal.getTimeInMillis());
-		Accounts c1 = new Accounts(5,3000,1,today);
+		Accounts c1 = new Accounts(5,today,5000,1);
 		
 		if(cd.create(c1))	System.out.println("insertion ok de " + c1);
 		else System.out.println("insertion impossible, client avec cet id existe déjà ");

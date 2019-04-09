@@ -16,7 +16,7 @@ public class OperationDao extends Dao<Operations>{
 			ps.setInt(1,id);
 			ResultSet resultSet = ps.executeQuery();
 			if(resultSet.next()){				
-				operation = new Operations(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3));
+				operation = new Operations(resultSet.getInt(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getDate(4),resultSet.getInt(5));
 			}
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -26,13 +26,14 @@ public class OperationDao extends Dao<Operations>{
 
 	@Override
 	public boolean create(Operations operation) {
-		String str = "INSERT INTO T_Operations (NumOp,Amount,NumCt) VALUES (?, ? ,?);";
+		String str = "INSERT INTO T_Operations (type,Amount,NumCt) VALUES (?, ? ,?);";
 		PreparedStatement ps;
 		boolean ok = false;
 		try {
 			ps = connection.prepareStatement(str);
-			ps.setInt(1, operation.getNumOp());
-			ps.setInt(2,operation.getAmount());
+			ps.setString(1, operation.getType());
+			ps.setInt(2, operation.getAmount());
+			//ps.setInt(3,operation.getAmount());
 			ps.setInt(3,operation.getNumCt());
 			ps.executeQuery();
 			ok = true;
